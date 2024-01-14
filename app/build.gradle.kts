@@ -45,14 +45,41 @@ android {
         }
     }
 
-    flavorDimensions += "questions"
+    flavorDimensions += listOf("cluster", "brand")
 
     productFlavors {
+        create("daimler") {
+            dimension = "cluster"
+        }
+        create("bmwGroup") {
+            dimension = "cluster"
+        }
+
         create("bmw") {
-            dimension = "questions"
+            dimension = "brand"
         }
         create("mercedes") {
-            dimension = "questions"
+            dimension = "brand"
+        }
+    }
+
+    val allowedCombinations = mapOf(
+        "volkswagen" to listOf("vw", "audi", "bentley", "bugatti", "porsche", "seat", "skoda"),
+        "daimler" to listOf("maybach", "mercedes", "smart"),
+        "bmwGroup" to listOf("bmw", "mini", "rollsRoyce"),
+    )
+
+    androidComponents {
+        beforeVariants { variantBuilder ->
+            // To check for a certain build type, use variantBuilder.buildType == "<buildType>"
+            val dimensions = variantBuilder.productFlavors.associate { it }
+
+            val cluster = dimensions["cluster"]
+            val brand = dimensions["brand"]
+            
+            val allowedBrands = allowedCombinations[cluster]
+
+            variantBuilder.enable = allowedBrands?.contains(brand) ?: false
         }
     }
 }
