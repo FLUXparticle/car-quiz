@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DisplayFirstQuestion(context: Context) {
-    val xmlResourceParser = context.resources.getXml(R.xml.bmw_questions)
+    val xmlResourceParser = context.resources.getXml(R.xml.questions)
 
     val firstQuestionText: String?
     val answers = mutableListOf<String>()
