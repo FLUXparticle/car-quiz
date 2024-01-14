@@ -1,0 +1,23 @@
+<questions>
+    <question>
+        <text>Welche deutsche Firma steht hinter der Marke Mercedes-Benz?</text>
+        <options>
+            <option>Volkswagen</option>
+            <option>Daimler AG</option>
+            <option>BMW Group</option>
+            <option>Audi AG</option>
+        </options>
+        <correctOption>Daimler AG</correctOption>
+    </question>
+    <question>
+        <text>Wann wurde Mercedes-Benz gegründet?</text>
+        <options>
+            <option>1901</option>
+            <option>1926</option>
+            <option>1939</option>
+            <option>1955</option>
+        </options>
+        <correctOption>1926</correctOption>
+    </question>
+    <!-- Weitere Fragen hier -->
+</questions>

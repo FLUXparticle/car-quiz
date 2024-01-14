@@ -1,0 +1,23 @@
+<questions>
+    <question>
+        <text>Welches deutsche Unternehmen steht hinter der Marke BMW?</text>
+        <options>
+            <option>Mercedes-Benz</option>
+            <option>Volkswagen</option>
+            <option>BMW Group</option>
+            <option>Audi AG</option>
+        </options>
+        <correctOption>BMW Group</correctOption>
+    </question>
+    <question>
+        <text>Wann wurde BMW gegründet?</text>
+        <options>
+            <option>1910</option>
+            <option>1925</option>
+            <option>1933</option>
+            <option>1948</option>
+        </options>
+        <correctOption>1916</correctOption>
+    </question>
+    <!-- Weitere Fragen hier -->
+</questions>
