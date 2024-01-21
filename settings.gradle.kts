@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "CarQuiz"
-include(":app")
+include(":app", ":ads")

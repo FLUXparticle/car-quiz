@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.carquiz.ads.AdBanner
 import com.example.carquiz.ui.theme.CarQuizTheme
 
 class MainActivity : ComponentActivity() {
@@ -27,8 +28,13 @@ class MainActivity : ComponentActivity() {
             CarQuizTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    // Greeting("Android")
-                    DisplayFirstQuestion(context = this)
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        AdBanner()
+                        DisplayFirstQuestion(context = this@MainActivity)
+                    }
                 }
             }
         }
@@ -61,7 +67,7 @@ fun DisplayFirstQuestion(context: Context) {
 
         answers.forEach { answer ->
             Button(
-                onClick = { /* Hier kannst du die Antwort-Funktion hinzufügen */ },
+                onClick = { },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = answer)
