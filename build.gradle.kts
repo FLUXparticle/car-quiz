@@ -5,3 +5,10 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("org.barfuin.gradle.taskinfo") version "2.1.0"
 }
+
+val convert by tasks.registering(Convert::class) {
+    group = "custom"
+    xsltFile = file("rechnung.xsl")
+    inputDir = file("xml")
+    outputDir = file("fo")
+}
