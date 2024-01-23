@@ -1,3 +1,14 @@
+import com.example.flavors.versionsFlavor
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath("com.example:flavors:1.0-SNAPSHOT")
+    }
+}
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -45,7 +56,7 @@ android {
         }
     }
 
-    flavorDimensions += listOf("cluster", "brand", "version")
+    flavorDimensions += listOf("cluster", "brand")
     productFlavors {
         create("daimler") {
             dimension = "cluster"
@@ -60,14 +71,9 @@ android {
         create("mercedes") {
             dimension = "brand"
         }
-
-        create("free") {
-            dimension = "version"
-        }
-        create("paid") {
-            dimension = "version"
-        }
     }
+
+    versionsFlavor()
 
     val allowedCombinations = mapOf(
         "volkswagen" to listOf("vw", "audi", "bentley", "bugatti", "porsche", "seat", "skoda"),

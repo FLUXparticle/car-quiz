@@ -1,3 +1,14 @@
+import com.example.flavors.versionsFlavor
+
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath("com.example:flavors:1.0-SNAPSHOT")
+    }
+}
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -37,15 +48,7 @@ android {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
 
-    flavorDimensions += "version"
-    productFlavors {
-        create("free") {
-            dimension = "version"
-        }
-        create("paid") {
-            dimension = "version"
-        }
-    }
+    versionsFlavor()
 }
 
 dependencies {
