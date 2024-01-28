@@ -1,7 +1,8 @@
 pluginManagement {
     repositories {
-        google()
+        mavenLocal()
         mavenCentral()
+        google()
         gradlePluginPortal()
     }
 }
@@ -15,3 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "CarQuiz"
 include(":app", ":ads")
+include(":testads")
+include(":ads:test")

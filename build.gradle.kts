@@ -4,6 +4,11 @@ plugins {
     id("com.android.library") version "8.2.1" apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("org.barfuin.gradle.taskinfo") version "2.1.0"
+    id("com.example.greeting") version "1.0-SNAPSHOT"
+}
+
+greeting {
+    name = "Sven"
 }
 
 val convert by tasks.registering(Convert::class) {
