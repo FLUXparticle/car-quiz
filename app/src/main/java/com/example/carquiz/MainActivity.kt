@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.carquiz.ads.AdBanner
 import com.example.carquiz.payment.PaymentServiceImpl
+import com.example.carquiz.payment.ShopImpl
 import com.example.carquiz.ui.theme.CarQuizTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         val paymentService = PaymentServiceImpl()
+        val shop = ShopImpl(paymentService)
 
         setContent {
             CarQuizTheme {
@@ -42,7 +44,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AdBanner()
                         DisplayFirstQuestion(context = this@MainActivity)
-                        ShopView(paymentService)
+                        ShopView(shop)
                     }
                 }
             }
@@ -51,13 +53,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ShopView(paymentService: PaymentServiceImpl) {
+fun ShopView(shop: ShopImpl) {
     // State für die Anzeige des Strings
     var result by remember { mutableStateOf("") }
 
     Button(
         onClick = {
-            result = paymentService.processPayment(3.14)
+            result = shop.buy("Pie", 3.14)
         },
         modifier = Modifier.fillMaxWidth()
     ) {
