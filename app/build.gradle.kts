@@ -69,6 +69,16 @@ android {
         }
     }
 
+    flavorDimensions += "payment"
+    productFlavors {
+        create("paypal") {
+            dimension = "payment"
+        }
+        create("stripe") {
+            dimension = "payment"
+        }
+    }
+
     val allowedCombinations = mapOf(
         "volkswagen" to listOf("vw", "audi", "bentley", "bugatti", "porsche", "seat", "skoda"),
         "daimler" to listOf("maybach", "mercedes", "smart"),
@@ -101,6 +111,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
 
     implementation(project(":ads"))
+    implementation(project(":payment-impl"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

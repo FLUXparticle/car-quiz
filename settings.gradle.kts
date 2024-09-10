@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "CarQuiz"
 include(":app", ":ads")
+include(":payment-api")
+include(":payment-impl")

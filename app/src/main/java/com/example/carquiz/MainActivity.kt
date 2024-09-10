@@ -15,15 +15,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.carquiz.ads.AdBanner
+import com.example.carquiz.payment.PaymentServiceImpl
 import com.example.carquiz.ui.theme.CarQuizTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val paymentService = PaymentServiceImpl()
+
         setContent {
             CarQuizTheme {
                 // A surface container using the 'background' color from the theme
@@ -34,10 +42,34 @@ class MainActivity : ComponentActivity() {
                     ) {
                         AdBanner()
                         DisplayFirstQuestion(context = this@MainActivity)
+                        ShopView(paymentService)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ShopView(paymentService: PaymentServiceImpl) {
+    // State für die Anzeige des Strings
+    var result by remember { mutableStateOf("") }
+
+    Button(
+        onClick = {
+            result = paymentService.processPayment(3.14)
+        },
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = "Buy")
+    }
+
+    // Der zurückgegebene String wird unter dem Button angezeigt
+    if (result.isNotEmpty()) {
+        Text(
+            text = result,
+            style = MaterialTheme.typography.bodyLarge
+        )
     }
 }
 
