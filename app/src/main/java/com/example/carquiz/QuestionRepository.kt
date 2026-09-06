@@ -4,8 +4,12 @@ import android.content.res.Resources
 import android.content.res.XmlResourceParser
 import androidx.annotation.XmlRes
 
-class QuestionRepository(private val resources: Resources) {
-    fun loadQuestions(@XmlRes resourceId: Int): List<Question> {
+interface QuestionSource {
+    fun loadQuestions(@XmlRes resourceId: Int): List<Question>
+}
+
+class QuestionRepository(private val resources: Resources) : QuestionSource {
+    override fun loadQuestions(@XmlRes resourceId: Int): List<Question> {
         val questions = mutableListOf<Question>()
         val parser = resources.getXml(resourceId)
 

@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class QuizViewModel(
-    questionRepository: QuestionRepository,
+    questionSource: QuestionSource,
     @XmlRes resourceId: Int
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(QuizUiState(questionRepository.loadQuestions(resourceId)))
+    private val _uiState = MutableStateFlow(QuizUiState(questionSource.loadQuestions(resourceId)))
     val uiState: StateFlow<QuizUiState> = _uiState.asStateFlow()
 
     fun dispatch(intent: QuizIntent) {
