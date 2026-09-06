@@ -1,10 +1,9 @@
 package com.example.carquiz
 
-import android.content.res.XmlResourceParser
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.XmlRes
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -17,82 +16,51 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.carquiz.ui.theme.CarQuizTheme
 
 class MainActivity : ComponentActivity() {
+    private val quizViewModel: QuizViewModel by viewModels {
+        QuizViewModelFactory(QuestionRepository(resources), R.xml.car_questions)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val questions = loadQuestions(R.xml.car_questions)
-
         setContent {
             CarQuizTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CarQuiz(questions)
+                    val uiState by quizViewModel.uiState.collectAsStateWithLifecycle()
+                    CarQuiz(uiState, quizViewModel::dispatch)
                 }
             }
         }
     }
 }
 
-data class Question(
-    val text: String,
-    val options: List<String>,
-    val correctOption: String
-)
-
-private enum class QuizScreen {
-    Start,
-    Question,
-    Result
-}
-
 @Composable
-private fun CarQuiz(questions: List<Question>) {
-    var screen by remember { mutableStateOf(QuizScreen.Start) }
-    var questionIndex by remember { mutableIntStateOf(0) }
-    var score by remember { mutableIntStateOf(0) }
-    var selectedOption by remember { mutableStateOf<String?>(null) }
-
-    fun restartQuiz() {
-        questionIndex = 0
-        score = 0
-        selectedOption = null
-        screen = QuizScreen.Question
-    }
-
-    when (screen) {
-        QuizScreen.Start -> StartScreen(onStart = ::restartQuiz)
-        QuizScreen.Question -> QuestionScreen(
-            question = questions[questionIndex],
-            questionNumber = questionIndex + 1,
-            questionCount = questions.size,
-            selectedOption = selectedOption,
-            onOptionSelected = { selectedOption = it },
-            onNextQuestion = {
-                if (selectedOption == questions[questionIndex].correctOption) {
-                    score++
-                }
-                selectedOption = null
-                if (questionIndex == questions.lastIndex) {
-                    screen = QuizScreen.Result
-                } else {
-                    questionIndex++
-                }
-            }
-        )
+private fun CarQuiz(uiState: QuizUiState, onIntent: (QuizIntent) -> Unit) {
+    when (uiState.screen) {
+        QuizScreen.Start -> StartScreen(onStart = { onIntent(QuizIntent.Start) })
+        QuizScreen.Question -> {
+            val question = uiState.currentQuestion ?: return
+            QuestionScreen(
+                question = question,
+                questionNumber = uiState.questionIndex + 1,
+                questionCount = uiState.questions.size,
+                selectedOption = uiState.selectedOption,
+                onOptionSelected = { onIntent(QuizIntent.SelectAnswer(it)) },
+                onNextQuestion = { onIntent(QuizIntent.NextQuestion) }
+            )
+        }
         QuizScreen.Result -> ResultScreen(
-            score = score,
-            questionCount = questions.size,
-            onRestart = ::restartQuiz
+            score = uiState.score,
+            questionCount = uiState.questions.size,
+            onRestart = { onIntent(QuizIntent.Restart) }
         )
     }
 }
@@ -161,40 +129,4 @@ private fun QuizColumn(content: @Composable ColumnScope.() -> Unit) {
         verticalArrangement = Arrangement.spacedBy(12.dp),
         content = content
     )
-}
-
-private fun MainActivity.loadQuestions(@XmlRes resourceId: Int): List<Question> {
-    val questions = mutableListOf<Question>()
-    val parser = resources.getXml(resourceId)
-
-    try {
-        var questionText: String? = null
-        var options = mutableListOf<String>()
-        var correctOption: String? = null
-
-        while (parser.eventType != XmlResourceParser.END_DOCUMENT) {
-            when (parser.eventType) {
-                XmlResourceParser.START_TAG -> when (parser.name) {
-                    "question" -> {
-                        questionText = null
-                        options = mutableListOf()
-                        correctOption = null
-                    }
-                    "text" -> questionText = parser.nextText()
-                    "option" -> options += parser.nextText()
-                    "correctOption" -> correctOption = parser.nextText()
-                }
-                XmlResourceParser.END_TAG -> if (parser.name == "question" &&
-                    questionText != null && correctOption != null
-                ) {
-                    questions += Question(questionText, options, correctOption)
-                }
-            }
-            parser.next()
-        }
-    } finally {
-        parser.close()
-    }
-
-    return questions
 }
