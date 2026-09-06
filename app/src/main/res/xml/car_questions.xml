@@ -1,0 +1,42 @@
+<questions>
+    <question>
+        <text>Wann meldete Carl Benz sein Patent für den Motorwagen an?</text>
+        <options>
+            <option>29. Januar 1886</option>
+            <option>1. Januar 1900</option>
+            <option>4. Juli 1776</option>
+            <option>8. März 1911</option>
+        </options>
+        <correctOption>29. Januar 1886</correctOption>
+    </question>
+    <question>
+        <text>Wer unternahm 1888 die erste Fernfahrt mit einem Automobil?</text>
+        <options>
+            <option>Carl Benz</option>
+            <option>Bertha Benz</option>
+            <option>Gottlieb Daimler</option>
+            <option>Ferdinand Porsche</option>
+        </options>
+        <correctOption>Bertha Benz</correctOption>
+    </question>
+    <question>
+        <text>Zu welchem Konzern gehört Lamborghini?</text>
+        <options>
+            <option>Volkswagen Konzern</option>
+            <option>Stellantis</option>
+            <option>BMW Group</option>
+            <option>Mercedes-Benz Group</option>
+        </options>
+        <correctOption>Volkswagen Konzern</correctOption>
+    </question>
+    <question>
+        <text>Wie viel PS leistet der serienmäßige Bugatti Chiron?</text>
+        <options>
+            <option>1.000 PS</option>
+            <option>1.200 PS</option>
+            <option>1.500 PS</option>
+            <option>2.000 PS</option>
+        </options>
+        <correctOption>1.500 PS</correctOption>
+    </question>
+</questions>

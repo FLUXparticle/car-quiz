@@ -28,7 +28,7 @@ import com.example.carquiz.ui.theme.CarQuizTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val questions = loadQuestions(R.xml.bmw_questions) + loadQuestions(R.xml.mercedes_questions)
+        val questions = loadQuestions(R.xml.car_questions)
 
         setContent {
             CarQuizTheme {
