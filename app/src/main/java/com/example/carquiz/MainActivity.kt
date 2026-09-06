@@ -3,7 +3,6 @@ package com.example.carquiz
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -20,12 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.carquiz.ui.theme.CarQuizTheme
+import org.koin.androidx.compose.koinViewModel
 
 class MainActivity : ComponentActivity() {
-    private val quizViewModel: QuizViewModel by viewModels {
-        QuizViewModelFactory(QuestionRepository(resources), R.xml.car_questions)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,6 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val quizViewModel = koinViewModel<QuizViewModel>()
                     val uiState by quizViewModel.uiState.collectAsStateWithLifecycle()
                     CarQuiz(uiState, quizViewModel::dispatch)
                 }
