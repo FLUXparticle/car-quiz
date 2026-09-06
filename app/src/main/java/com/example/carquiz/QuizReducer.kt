@@ -1,35 +1,5 @@
 package com.example.carquiz
 
-data class Question(
-    val text: String,
-    val options: List<String>,
-    val correctOption: String
-)
-
-enum class QuizScreen {
-    Start,
-    Question,
-    Result
-}
-
-sealed interface QuizIntent {
-    data object Start : QuizIntent
-    data class SelectAnswer(val option: String) : QuizIntent
-    data object NextQuestion : QuizIntent
-    data object Restart : QuizIntent
-}
-
-data class QuizUiState(
-    val questions: List<Question>,
-    val screen: QuizScreen = QuizScreen.Start,
-    val questionIndex: Int = 0,
-    val selectedOption: String? = null,
-    val score: Int = 0
-) {
-    val currentQuestion: Question?
-        get() = questions.getOrNull(questionIndex)
-}
-
 fun reduce(state: QuizUiState, intent: QuizIntent): QuizUiState = when (intent) {
     QuizIntent.Start,
     QuizIntent.Restart -> state.copy(
